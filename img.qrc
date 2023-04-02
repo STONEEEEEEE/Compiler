@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="png">
+    <file>img/IcoMoon-Free-master/PNG/16px/266-question.png</file>
+    <file>img/IcoMoon-Free-master/PNG/16px/007-pencil2.png</file>
+    <file>img/IcoMoon-Free-master/PNG/16px/023-pacman.png</file>
+    <file>img/IcoMoon-Free-master/PNG/16px/039-file-text2.png</file>
+    <file>img/IcoMoon-Free-master/PNG/16px/049-folder-open.png</file>
+    <file>img/IcoMoon-Free-master/PNG/16px/099-floppy-disk.png</file>
+    <file>img/IcoMoon-Free-master/PNG/16px/146-wrench.png</file>
+    <file>img/IcoMoon-Free-master/PNG/16px/149-cog.png</file>
+    <file>img/IcoMoon-Free-master/PNG/16px/173-bin.png</file>
+    <file>img/IcoMoon-Free-master/PNG/16px/278-play2.png</file>
+    <file>img/IcoMoon-Free-master/PNG/16px/284-forward2.png</file>
+  </qresource>
+</RCC>

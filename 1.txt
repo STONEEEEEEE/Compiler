@@ -1,0 +1,9 @@
+char b = 'b'
+string c = "acc";
+bool d = true;
+@$
+$$$
+@123
+{
+}
+}
