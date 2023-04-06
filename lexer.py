@@ -232,11 +232,11 @@ class Lexer:
         if state == 17 or state == 11:  # 出错
             token = 0   # 表示错误
             print("当前行: " + str(self.row+1) + "\terror: " + self.line[startIndex:self.index-1])
-            self.addWord(self.line[startIndex:self.index-1], str(self.row+1), str(token))
+            self.addWord(self.line[startIndex:self.index-1], self.row+1, token)
         else:
             token = 400
             print("当前行: " + str(self.row+1) + "\t数值: " + self.line[startIndex:self.index-1] + "\t" + str(token))
-            self.addWord(self.line[startIndex:self.index-1], str(self.row+1), str(token))
+            self.addWord(self.line[startIndex:self.index-1], self.row+1, token)
 
         # 回退空白符
         self.index -= 1
@@ -272,11 +272,11 @@ class Lexer:
         # 识别结果
         if state == 2:  # 关键字
             print("当前行: " + str(self.row+1) + "\t关键字: " + self.line[startIndex:self.index-1] + "\t" + str(token))
-            self.addWord(self.line[startIndex:self.index-1], str(self.row+1), str(token))
+            self.addWord(self.line[startIndex:self.index-1], self.row+1, token)
         else:  # 标志符
             token = 700
             print("当前行: " + str(self.row+1) + "\t标志符: " + self.line[startIndex:self.index-1] + "\t" + str(token))
-            self.addWord(self.line[startIndex:self.index-1], str(self.row+1), str(token))
+            self.addWord(self.line[startIndex:self.index-1], self.row+1, token)
         self.index -= 1
 
     # 识别注释或除号
@@ -323,7 +323,7 @@ class Lexer:
         elif state == 6:  # 不能else，否则多行注释状态会进入此处
             token = 207
             print("当前行: " + str(self.row+1) + "\t界符或运算符: " + self.line[self.index-1] + "\t" + str(token))
-            self.addWord(self.line[self.index-1], str(self.row+1), str(token))
+            self.addWord(self.line[self.index-1], self.row+1, token)
 
     # 识别字符
     def rec_ch(self):
@@ -347,10 +347,10 @@ class Lexer:
             token = 500
             print("当前行: " + str(self.row+1) + "\t字符: " + self.line[startIndex+1:self.index-1] + "\t" + str(
                 token))  # 去掉两边单引号
-            self.addWord(self.line[startIndex+1:self.index-1], str(self.row+1), str(token))
+            self.addWord(self.line[startIndex+1:self.index-1], self.row+1, token)
         else:
             token = 0
-            self.addWord(self.line[startIndex:self.index-1], str(self.row+1), str(token))
+            self.addWord(self.line[startIndex:self.index-1], self.row+1, token)
             print("当前行: " + str(self.row + 1) + "\terror: " + self.line[startIndex:self.index-1])
             self.index -= 1
 
@@ -374,13 +374,13 @@ class Lexer:
             self.index += 1
 
         if state == 2:
-            token = 500
+            token = 600
             print("当前行: " + str(self.row+1) + "\t字符串: " + self.line[startIndex+1:self.index-1] + "\t" + str(
                 token))  # 去掉两边双引号
-            self.addWord(self.line[startIndex+1:self.index-1], str(self.row+1), str(token))
+            self.addWord(self.line[startIndex+1:self.index-1], self.row+1, token)
         else:
             token = 0
-            self.addWord(self.line[startIndex:self.index-1], str(self.row+1), str(token))
+            self.addWord(self.line[startIndex:self.index-1], self.row+1, token)
             print("当前行: " + str(self.row + 1) + "\terror: " + self.line[startIndex:self.index-1])
             self.index -= 1
 
@@ -425,11 +425,11 @@ class Lexer:
         elif numCh == 1:
             self.index = startIndex + 1
             print("当前行: " + str(self.row+1) + "\t界符或运算符: " + ch + "\t" + str(token))
-            self.addWord(ch, str(self.row+1), str(token))
+            self.addWord(ch, self.row+1, token)
         elif numCh == 2:
             self.index = startIndex + 2
             print("当前行: " + str(self.row+1) + "\t界符或运算符: " + ch + "\t" + str(token))
-            self.addWord(ch, str(self.row+1), str(token))
+            self.addWord(ch, self.row+1, token)
 
 
 if __name__ == '__main__':

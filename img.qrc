@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="png">
+    <file>img/IcoMoon-Free-master/PNG/16px/009-pen.png</file>
     <file>img/IcoMoon-Free-master/PNG/16px/266-question.png</file>
     <file>img/IcoMoon-Free-master/PNG/16px/007-pencil2.png</file>
     <file>img/IcoMoon-Free-master/PNG/16px/023-pacman.png</file>

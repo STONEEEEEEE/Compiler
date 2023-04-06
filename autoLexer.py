@@ -3,29 +3,10 @@ import ply.lex as lex
 
 class AutoLexer(object):
 
-    # 记录单词
-    words = []
-
-    # 关键字
-    keyID = {
-        # 数据类型
-        'char': 'CHAR', 'int': 'INT', 'float': 'FLOAT', 'void': 'VOID', 'const': 'CONST',
-        # 函数内关键字
-        'break': 'BREAK', 'continue': 'CONTINUE', 'return': 'RETURN',
-        'do': 'DO', 'while': 'WHILE', 'if': 'IF', 'else': 'ELSE', 'for': 'FOR',
-        'true': 'TRUE', 'false': 'FALSE',
-        # 内置函数
-        'memset': 'MEMSET', 'sizeof': 'SIZEOF', 'gets': 'GETS', 'printf': 'PRINTF', 'scanf': 'SCANF'
-    }
-
-    # token序列
-    tokens = ['LPAREN', 'RPAREN', 'DIVIDE', 'TIMES', 'MINUS', 'PLUS', 'NUMBER', 'FENHAO',
-              'DENGHAO', 'XIAOYU', 'DAYU', 'ZUODAKUOHAO', 'YOUDAKUOHAO', 'ID', 'COMMENT', 'STRING', 'CH'] \
-             + list(keyID.values())
-
-    tokenNums = {}
-
     # 创建构造器
+    def __init__(self):
+        self.lexer = None
+
     def build(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
 
@@ -38,7 +19,7 @@ class AutoLexer(object):
             if not tok:
                 break
             print(tok)
-            self.words.append([tok.value, tok.lineno, tok.type])
+            self.words.append([tok.value, tok.lineno, self.changeToTokNum(tok)])
 
     # 读取文件
     def readFile(self, filename):
@@ -48,24 +29,98 @@ class AutoLexer(object):
     # 将token转换为种别码
     def changeToTokNum(self, t):
         for token in self.tokens:
-            if t == token:
+            if t.type == token:
                 for tokenNum in self.tokenNums.keys():
                     if token == tokenNum:
                         return self.tokenNums.get(tokenNum)
 
+    def getWords(self):
+        return self.words
+
+    # 记录单词
+    words = []
+
+    # 关键字
+    keyID = {
+        # 数据类型相关
+        'char': 'CHAR', 'int': 'INT', 'float': 'FLOAT', 'void': 'VOID', 'const': 'CONST',
+        # 函数内关键字
+        'break': 'BREAK', 'continue': 'CONTINUE', 'return': 'RETURN',
+        'do': 'DO', 'while': 'WHILE', 'if': 'IF', 'else': 'ELSE', 'for': 'FOR',
+        'true': 'TRUE', 'false': 'FALSE',
+        # 内置函数
+        'memset': 'MEMSET', 'sizeof': 'SIZEOF', 'gets': 'GETS', 'printf': 'PRINTF', 'scanf': 'SCANF'
+    }
+
+    # token序列
+    tokens = [
+        # 运算符
+        'LPAREN', 'RPAREN', 'LBRACKET', 'RBRACKET', 'NOT',
+        'MULTIPLY', 'DIVIDE', 'PERCENT', 'PLUS', 'MINUS',
+        'LESS', 'LESSEQUAL', 'MORE', 'MOREEQUAL', 'DOUBLEEQUAL',
+        'NOTEQUAL', 'AND', 'OR', 'EQUAL', 'BINARYAND',
+        'PLUSEQUAL', 'MINUSEQUAL', 'MULTIPLYEQUAL', 'DIVIDEEQUAL', 'DOUBLEPLUS',
+        'DOUBLEMINUS', 'ANDEQUAL', 'OREQUAL',
+        # 界符
+        'LBRACES', 'RBRACES', 'SEMICOLON', 'COMMA',
+        # 函数token
+        'NUMBER', 'ID', 'COMMENT', 'STRING', 'CH', 'error'] + list(keyID.values())
+
+    tokenNums = {
+        # 数据类型相关
+        'CHAR': 101, 'INT': 102, 'FLOAT': 103, 'VOID': 104, 'CONST': 105,
+        # 函数内关键字
+        'BREAK': 106, 'CONTINUE': 107, 'RETURN': 108,
+        'DO': 109, 'WHILE': 110, 'IF': 111, 'ELSE': 112, 'FOR': 113,
+        'TRUE': 114, 'FALSE': 115,
+        # 内置函数
+        'MEMSET': 116, 'SIZEOF': 117, 'GETS': 118, 'PRINTF': 119, 'SCANF': 120,
+        # 运算符
+        'LPAREN': 201, 'RPAREN': 202, 'LBRACKET': 203, 'RBRACKET': 204, 'NOT': 205,
+        'MULTIPLY': 206, 'DIVIDE': 207, 'PERCENT': 208, 'PLUS': 209, 'MINUS': 210,
+        'LESS': 211, 'LESSEQUAL': 212, 'MORE': 213, 'MOREEQUAL': 214, 'DOUBLEEQUAL': 215,
+        'NOTEQUAL': 216, 'AND': 217, 'OR': 218, 'EQUAL': 219, 'BINARYAND': 220,
+        'PLUSEQUAL': 221, 'MINUSEQUAL': 222, 'MULTIPLYEQUAL': 223, 'DIVIDEEQUAL': 224, 'DOUBLEPLUS': 225,
+        'DOUBLEMINUS': 226, 'ANDEQUAL': 227, 'OREQUAL': 228,
+        # 界符
+        'LBRACES': 301, 'RBRACES': 302, 'SEMICOLON': 303, 'COMMA': 304,
+        # 数字标志符等
+        'NUMBER': 400, 'ID': 700, 'CH': 500, 'STRING': 600, 'error': 0
+    }
+
     # 规则
-    t_PLUS = r'\+'
-    t_MINUS = r'-'
-    t_TIMES = r'\*'
-    t_DIVIDE = r'/'
     t_LPAREN = r'\('
     t_RPAREN = r'\)'
-    t_FENHAO = r';'
-    t_DENGHAO = r'='
-    t_XIAOYU = r'<'
-    t_DAYU = r'>'
-    t_ZUODAKUOHAO = r'\{'
-    t_YOUDAKUOHAO = r'\}'
+    t_LBRACKET = r'\['
+    t_RBRACKET = r'\]'
+    t_NOT = r'\!'
+    t_MULTIPLY = r'\*'
+    t_DIVIDE = r'/'
+    t_PERCENT = r'%'
+    t_PLUS = r'\+'
+    t_MINUS = r'-'
+    t_LESS = r'<'
+    t_LESSEQUAL = r'<='
+    t_MORE = r'>'
+    t_MOREEQUAL = r'>='
+    t_DOUBLEEQUAL = r'=='
+    t_NOTEQUAL = r'!='
+    t_AND = r'&&'
+    t_OR = r'\|\|'
+    t_EQUAL = r'='
+    t_BINARYAND = r'\&'
+    t_PLUSEQUAL = r'\+='
+    t_MINUSEQUAL = r'-='
+    t_MULTIPLYEQUAL = r'\*='
+    t_DIVIDEEQUAL = r'/='
+    t_DOUBLEPLUS = r'\+\+'
+    t_DOUBLEMINUS = r'--'
+    t_ANDEQUAL = r'&='
+    t_OREQUAL = r'\|='
+    t_LBRACES = r'\{'
+    t_RBRACES = r'\}'
+    t_SEMICOLON = r';'
+    t_COMMA = r'\,'
 
     # # ID规则
     def t_ID(self, t):
@@ -73,29 +128,31 @@ class AutoLexer(object):
         t.type = self.keyID.get(t.value, 'ID')  # Check for keyID words
         return t
 
-    # 识别数字
+    # 数字规则
     def t_NUMBER(self, t):
         # 1:整数，小数，科学计数，2:0开头的数 3：八进制 4:16进制
         r"""
         [+-]?[1-9]\d*(\.\d+)?([eE][+-]?[1-9]\d*)?\b|
         [+-]?0(\.[1-9]\d*[eE][+-]?[1-9]\d*|\.[1-9]\d*)?\b|
-        0[0-7]+\b|
-        0[xX][0-9a-fA-F]+\b
+        0[1-7]+\b|
+        0[xX][1-9a-fA-F]+\b
         """
         return t
 
-    # 忽略注释
+    # 注释规则
     def t_COMMENT(self, t):
         r'/\*.*?\n*.*?\*/|//.*'
-        return t
+        for ch in t.value:
+            if ch == '\n':
+                t.lexer.lineno += 1
 
-    # 识别字符串
+    # 字符串规则
     def t_STRING(self, t):
         r'\".*\"'
         t.value = t.value[1:len(t.value) - 1]
         return t
 
-    # 识别字符
+    # 字符规则
     def t_CH(self, t):
         r'\'.*\''
         t.value = t.value[1:len(t.value) - 1]
@@ -111,9 +168,17 @@ class AutoLexer(object):
 
     # 输出错误的规则
     def t_error(self, t):
-        print("----LexToken(ERROR,'" + str(t.value[0]) + "'," + str(t.lineno) + "," + str(t.lexpos) + ")----")
-        # self.errorWord += t.value
-        t.lexer.skip(1)
+        index = 0
+        currentCH = t.value[index]
+        while currentCH != ' ' and currentCH != '\r' and currentCH != '\n':
+            index += 1
+            currentCH = t.value[index]
+        if currentCH == '\n':
+            t.lexer.lineno += 1
+        t.value = t.value[0:index]
+        # print("----LexToken(ERROR,'" + str(t.value) + "'," + str(t.lineno) + "," + str(t.lexpos) + ")----")
+        t.lexer.skip(1+index)
+        return t
 
 
 if __name__ == '__main__':

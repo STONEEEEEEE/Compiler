@@ -9,8 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
-from textWithLineNum import QTextEditWithLineNum
+from textWithLineNum import QTextEditWithLineNum    # 添加处
 
 
 class Ui_MainWindow(object):
@@ -33,7 +32,7 @@ class Ui_MainWindow(object):
         self.tab_0.setObjectName("tab_0")
         self.verticalLayout_0 = QtWidgets.QVBoxLayout(self.tab_0)
         self.verticalLayout_0.setObjectName("verticalLayout_0")
-        self.textEdit_0 = QTextEditWithLineNum(self.tab_0)
+        self.textEdit_0 = QTextEditWithLineNum(self.tab_0)  # 修改处
         self.textEdit_0.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
         self.textEdit_0.setObjectName("textEdit_0")
         self.verticalLayout_0.addWidget(self.textEdit_0)
@@ -82,11 +81,11 @@ class Ui_MainWindow(object):
         icon2.addPixmap(QtGui.QPixmap(":/png/img/IcoMoon-Free-master/PNG/16px/039-file-text2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionNewFile.setIcon(icon2)
         self.actionNewFile.setObjectName("actionNewFile")
-        self.actionCompile = QtWidgets.QAction(MainWindow)
+        self.actionLexer = QtWidgets.QAction(MainWindow)
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/png/img/IcoMoon-Free-master/PNG/16px/007-pencil2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionCompile.setIcon(icon3)
-        self.actionCompile.setObjectName("actionCompile")
+        self.actionLexer.setIcon(icon3)
+        self.actionLexer.setObjectName("actionLexer")
         self.actionRun = QtWidgets.QAction(MainWindow)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/png/img/IcoMoon-Free-master/PNG/16px/278-play2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -107,12 +106,16 @@ class Ui_MainWindow(object):
         icon7.addPixmap(QtGui.QPixmap(":/png/img/IcoMoon-Free-master/PNG/16px/266-question.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionHelp.setIcon(icon7)
         self.actionHelp.setObjectName("actionHelp")
+        self.actionAutoLexer = QtWidgets.QAction(MainWindow)
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap(":/png/img/IcoMoon-Free-master/PNG/16px/009-pen.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionAutoLexer.setIcon(icon8)
+        self.actionAutoLexer.setObjectName("actionAutoLexer")
         self.menu.addAction(self.actionNewFile)
         self.menu.addAction(self.actionOpenFile)
         self.menu.addAction(self.actionSaveFile)
-        self.menu_2.addAction(self.actionCompile)
-        self.menu_2.addAction(self.actionRun)
-        self.menu_2.addAction(self.actionCompileAndRun)
+        self.menu_2.addAction(self.actionLexer)
+        self.menu_2.addAction(self.actionAutoLexer)
         self.menu_3.addAction(self.menuwai.menuAction())
         self.menu_3.addAction(self.actionSetting)
         self.menu_3.addAction(self.actionHelp)
@@ -141,8 +144,8 @@ class Ui_MainWindow(object):
         self.actionSaveFile.setShortcut(_translate("MainWindow", "Ctrl+S"))
         self.actionNewFile.setText(_translate("MainWindow", "新建"))
         self.actionNewFile.setShortcut(_translate("MainWindow", "Ctrl+N"))
-        self.actionCompile.setText(_translate("MainWindow", "编译"))
-        self.actionCompile.setShortcut(_translate("MainWindow", "Alt+Q"))
+        self.actionLexer.setText(_translate("MainWindow", "词法分析"))
+        self.actionLexer.setShortcut(_translate("MainWindow", "Alt+Q"))
         self.actionRun.setText(_translate("MainWindow", "运行"))
         self.actionRun.setShortcut(_translate("MainWindow", "Alt+W"))
         self.actionCompileAndRun.setText(_translate("MainWindow", "编译并运行"))
@@ -151,4 +154,5 @@ class Ui_MainWindow(object):
         self.actionSetting.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
         self.actionHelp.setText(_translate("MainWindow", "帮助"))
         self.actionHelp.setShortcut(_translate("MainWindow", "Ctrl+Shift+H"))
+        self.actionAutoLexer.setText(_translate("MainWindow", "自动词法分析"))
 import img_rc

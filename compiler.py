@@ -21,7 +21,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionNewFile.triggered.connect(self.newFile)
         self.actionSaveFile.triggered.connect(self.saveFile)
         self.tabWidget.tabCloseRequested.connect(self.tabClose)
-        self.actionCompile.triggered.connect(self.lexAnalysis)
+        self.actionLexer.triggered.connect(self.lexAnalysis)
+        self.actionAutoLexer.triggered.connect(self.autoLexAnalysis)
 
     # 业务逻辑代码
     filePath = []  # 保存每一张选项卡内的文件路径
@@ -119,7 +120,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # 状态栏提示打开文件
             self.statusBar.showMessage("文件已保存到" + self.filePath[self.tabWidget.currentIndex()], 5000)
 
-    def lexAnalysis(self):
+    def lexAnalysis(self, bool):
         # 词法分析之前先保存
         self.saveFile()
         # 然后将当前选项卡的标题即文件名传给lexer
@@ -132,38 +133,35 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # 将单词表放入treewidget树状表
         for word in words:
             # 错误记入下面的文本框（）
-            if word[2] == '0':
+            if word[2] == 0:
                 item = QtWidgets.QListWidgetItem(self.listWidget)
-                item.setText("error[" + word[1] + "]: " + word[0])
+                item.setText("error[" + str(word[1]) + "]: " + str(word[0]))
                 continue
             item = QTreeWidgetItem(self.treeWidget)
             item.setText(0, word[0])
-            item.setText(1, word[1])
-            item.setText(2, word[2])
+            item.setText(1, str(word[1]))
+            item.setText(2, str(word[2]))
             self.treeWidget.addTopLevelItem(item)
 
     def autoLexAnalysis(self):
         self.saveFile()
         filename = self.tabWidget.tabText(self.tabWidget.currentIndex())
-
-        # 词法分析的结果是一个单词表
-        # 单词表用列表存储，[单词, 所在行, 种别码]
         autoLexer = AutoLexer()
         autoLexer.build()
         autoLexer.start(filename)
-        # words = lexer.getWords()
-        # # 将单词表放入treewidget树状表
-        # for word in words:
-        #     # 错误记入下面的文本框（）
-        #     if word[2] == '0':
-        #         item = QtWidgets.QListWidgetItem(self.listWidget)
-        #         item.setText("error[" + word[1] + "]: " + word[0])
-        #         continue
-        #     item = QTreeWidgetItem(self.treeWidget)
-        #     item.setText(0, word[0])
-        #     item.setText(1, word[1])
-        #     item.setText(2, word[2])
-        #     self.treeWidget.addTopLevelItem(item)
+        words = autoLexer.getWords()
+        # 将单词表放入treewidget树状表
+        for word in words:
+            # 错误记入下面的文本框（）
+            if word[2] == 0:
+                item = QtWidgets.QListWidgetItem(self.listWidget)
+                item.setText("error[" + str(word[1]) + "]: " + str(word[0]))
+                continue
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, word[0])
+            item.setText(1, str(word[1]))
+            item.setText(2, str(word[2]))
+            self.treeWidget.addTopLevelItem(item)
 
 
 if __name__ == '__main__':

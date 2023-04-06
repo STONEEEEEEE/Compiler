@@ -127,9 +127,8 @@
     <property name="title">
      <string>编译</string>
     </property>
-    <addaction name="actionCompile"/>
-    <addaction name="actionRun"/>
-    <addaction name="actionCompileAndRun"/>
+    <addaction name="actionLexer"/>
+    <addaction name="actionAutoLexer"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -185,13 +184,13 @@
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actionCompile">
+  <action name="actionLexer">
    <property name="icon">
     <iconset resource="img.qrc">
      <normaloff>:/png/img/IcoMoon-Free-master/PNG/16px/007-pencil2.png</normaloff>:/png/img/IcoMoon-Free-master/PNG/16px/007-pencil2.png</iconset>
    </property>
    <property name="text">
-    <string>编译</string>
+    <string>词法分析</string>
    </property>
    <property name="shortcut">
     <string>Alt+Q</string>
@@ -243,6 +242,15 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+H</string>
+   </property>
+  </action>
+  <action name="actionAutoLexer">
+   <property name="icon">
+    <iconset resource="img.qrc">
+     <normaloff>:/png/img/IcoMoon-Free-master/PNG/16px/009-pen.png</normaloff>:/png/img/IcoMoon-Free-master/PNG/16px/009-pen.png</iconset>
+   </property>
+   <property name="text">
+    <string>自动词法分析</string>
    </property>
   </action>
  </widget>
